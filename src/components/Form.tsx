@@ -6,9 +6,9 @@ export function Form(): ReactElement {
     <form className="form">
       <Input />
       <Input />
-      {/* <Input /> */}
-      {/* <Input /> */}
-      {/* <Input /> */}
+      <Input type="email" />
+      <Input type="password" />
+      <Input type="password" />
       {/* <Button /> */}
     </form>
   );

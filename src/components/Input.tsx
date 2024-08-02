@@ -1,6 +1,12 @@
 import { FocusEventHandler, MouseEventHandler, ReactElement, useRef, useState } from "react";
 
-export function Input(): ReactElement {
+type TInputType = "email" | "password" | "text";
+
+interface IInputProps {
+  type?: TInputType;
+}
+
+export function Input(props: IInputProps): ReactElement {
   // ############### Hooks & State ###############
 
   // For the component to handle state we need to use "useState" from react. It's a hook that react uses to make state persist across rerenders, and it's also used to trigger a rerender of the component every time the state updates. Observe though, if the state is a reference variable, you  always need to create a new reference in order for react to actually trigger a rerender.
@@ -38,6 +44,7 @@ export function Input(): ReactElement {
   };
 
   // ############### Derived variables / Regular JS ###############
+  const type = props.type ? props.type : "text";
 
   const derivedLabelClasses = labelClasses.join(" ");
   const derivedInputClasses = ["input-field"].join(" ");
@@ -53,7 +60,7 @@ export function Input(): ReactElement {
         onChange={(e) => setValue(e.target.value)}
         onFocus={handleOnFocus}
         ref={inputRef}
-        type="text"
+        type={type}
         value={value}
       />
     </div>
