@@ -1,0 +1,51 @@
+.input {
+  position: relative;
+}
+
+.input .label {
+  background-color: white;
+  color: gray;
+  font-size: var(--font-size);
+  transform: translateY(-50%);
+  transition: 250ms;
+
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+}
+
+.input .input-field {
+  border: 1px solid gray;
+  border-radius: var(--border-radius);
+  font-size: var(--font-size);
+  padding-block: 1rem;
+  padding-left: 1rem;
+  transition: 250ms;
+  width: 100%;
+}
+
+.input .input-field:focus {
+  border: 1px solid var(--main-color);
+}
+
+.input .input-field.error {
+  border: 1px solid red;
+}
+
+.input .input-field:focus-visible {
+  outline: none;
+}
+
+.input .label.blue {
+  color: var(--main-color);
+}
+
+.input .label.minimize {
+  padding: 0.3rem;
+  font-size: 1rem;
+  top: 0px;
+}
+
+.input .label.error {
+  color: red;
+}

@@ -1,0 +1,44 @@
+
+
+* {
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+}
+
+html {
+  --border-radius: 0.2rem;
+  --font-size: 1.1rem;
+  --main-color: #004c91;
+}
+
+body {
+  background-color: var(--main-color);
+  height: 100svh;
+  padding: 2rem;
+}
+
+h1 {
+  color: white;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+button:focus-visible {
+  background-color: var(--main-color);
+  outline: none;
+}
+
+.feedback {
+  color: red;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+@media screen and (min-width: 600px) {
+  form {
+    margin-bottom: 2rem;
+    margin-inline: auto;
+  }
+}
