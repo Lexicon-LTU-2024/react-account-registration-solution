@@ -1,4 +1,4 @@
-import { FormEventHandler, ReactElement, useState } from "react";
+import { FormEventHandler, ReactElement, useEffect, useState } from "react";
 import { Button, Input } from ".";
 import { isConfirmPasswordValid, isPasswordValid } from "../utils";
 
@@ -14,6 +14,7 @@ export function Form(): ReactElement {
   // ############### Hooks & State ###############
   const [passwordError, setPasswordError] = useState<boolean>(false);
   const [confirmPasswordError, setConfirmPasswordError] = useState<boolean>(false);
+  const [disableSubmit, setDisableSubmit] = useState<true | undefined>(true);
 
   // It also works if you want to create five useState variabels, on for each input. But I chose this approach  with an object instead.
   const [registrationData, setRegistrationData] = useState<IRegistrationData>({
@@ -28,10 +29,22 @@ export function Form(): ReactElement {
 
   const handleOnSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    console.log("Submitted");
+    console.log(registrationData);
   };
 
   // ############### Functions ###############
+
+  const checkEnableSubmit = (): void => {
+    // .every() return true if every element passes the predicate, otherwise false.
+    const allInputsHaveValue = Object.values(registrationData).every((value) => value !== "");
+
+    const passwordsAreValid =
+      isConfirmPasswordValid(registrationData.confirmPassword, registrationData.password) &&
+      isPasswordValid(registrationData.password);
+
+    passwordsAreValid && allInputsHaveValue ? setDisableSubmit(undefined) : setDisableSubmit(true);
+  };
+
   const updateRegistrationData = (id: string, value: string): void => {
     // The [id] is using array brackets in order to dynamically set the key corresponding to the id value.
     setRegistrationData({ ...registrationData, [id]: value });
@@ -53,6 +66,11 @@ export function Form(): ReactElement {
 
     updateRegistrationData("confirmPassword", value);
   };
+
+  // useEffect allows us to run some code in as a reaction to some specifed changes in our component. Two arguments, first arguments is the callback that is run as the "effect", and the second one is an array containg dependecies that the useEffect reacts on.
+  useEffect(() => {
+    checkEnableSubmit();
+  }, [registrationData]);
 
   return (
     <form className="form" onSubmit={handleOnSubmit}>
@@ -91,7 +109,9 @@ export function Form(): ReactElement {
         updateValue={validateConfirmPasswordAndUpdate}
         value={registrationData.confirmPassword}
       />
-      <Button type="submit">Sign Up</Button>
+      <Button disabled={disableSubmit} type="submit">
+        Sign Up
+      </Button>
     </form>
   );
 }
