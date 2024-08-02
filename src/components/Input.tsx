@@ -6,21 +6,21 @@ interface IInputProps {
   id?: string;
   label: string;
   type?: TInputType;
+  updateValue: (id: string, value: string) => void;
+  value: string;
 }
 
 export function Input(props: IInputProps): ReactElement {
   // ############### Hooks & State ###############
 
   // For the component to handle state we need to use "useState" from react. It's a hook that react uses to make state persist across rerenders, and it's also used to trigger a rerender of the component every time the state updates. Observe though, if the state is a reference variable, you  always need to create a new reference in order for react to actually trigger a rerender.
-
-  const [value, setValue] = useState<string>("");
   const [labelClasses, setLabelClasses] = useState<string[]>(["label"]);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // ############### Event Handlers ###############
 
   const handleOnBlur: FocusEventHandler<HTMLInputElement> = () => {
-    if (value === "") {
+    if (props.value === "") {
       const updatedClasses = labelClasses.filter(
         (labelClass) => labelClass !== "minimize" && labelClass !== "blue"
       );
@@ -61,11 +61,11 @@ export function Input(props: IInputProps): ReactElement {
         className={derivedInputClasses}
         id={id}
         onBlur={handleOnBlur}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e) => props.updateValue(id, e.target.value)}
         onFocus={handleOnFocus}
         ref={inputRef}
         type={type}
-        value={value}
+        value={props.value}
       />
     </div>
   );
