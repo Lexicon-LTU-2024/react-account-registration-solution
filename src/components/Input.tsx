@@ -5,6 +5,7 @@ type TInputType = "email" | "password" | "text";
 interface IInputProps {
   id?: string;
   label: string;
+  error?: boolean;
   type?: TInputType;
   updateValue: (id: string, value: string) => void;
   value: string;
@@ -49,8 +50,15 @@ export function Input(props: IInputProps): ReactElement {
   const id = props.id ? props.id : props.label.toLowerCase();
   const type = props.type ? props.type : "text";
 
-  const derivedLabelClasses = labelClasses.join(" ");
-  const derivedInputClasses = ["input-field"].join(" ");
+  // const derivedLabelClasses = props.error
+  //   ? `${labelClasses.join(" ")} error`
+  //   : labelClasses.join(" ");
+
+  const derivedLabelClasses = props.error
+    ? [...labelClasses, "error"].join(" ")
+    : labelClasses.join(" ");
+
+  const derivedInputClasses = props.error ? "input-field error" : "input-field";
 
   return (
     <div className="input">

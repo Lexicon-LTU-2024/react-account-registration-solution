@@ -1,5 +1,6 @@
 import { FormEventHandler, ReactElement, useState } from "react";
 import { Button, Input } from ".";
+import { isConfirmPasswordValid, isPasswordValid } from "../utils";
 
 interface IRegistrationData {
   name: string;
@@ -11,6 +12,9 @@ interface IRegistrationData {
 
 export function Form(): ReactElement {
   // ############### Hooks & State ###############
+  const [passwordError, setPasswordError] = useState<boolean>(false);
+  const [confirmPasswordError, setConfirmPasswordError] = useState<boolean>(false);
+
   // It also works if you want to create five useState variabels, on for each input. But I chose this approach  with an object instead.
   const [registrationData, setRegistrationData] = useState<IRegistrationData>({
     name: "",
@@ -28,9 +32,26 @@ export function Form(): ReactElement {
   };
 
   // ############### Functions ###############
-  const updateRegistrationData = (id: string, value: string) => {
+  const updateRegistrationData = (id: string, value: string): void => {
     // The [id] is using array brackets in order to dynamically set the key corresponding to the id value.
     setRegistrationData({ ...registrationData, [id]: value });
+  };
+
+  const validatePasswordAndUpdate = (id: string, value: string): void => {
+    if (id !== "password") return;
+
+    isPasswordValid(value) ? setPasswordError(false) : setPasswordError(true);
+    updateRegistrationData("password", value);
+  };
+
+  const validateConfirmPasswordAndUpdate = (id: string, value: string): void => {
+    if (id !== "confirmPassword") return;
+
+    isConfirmPasswordValid(value, registrationData.password)
+      ? setConfirmPasswordError(false)
+      : setConfirmPasswordError(true);
+
+    updateRegistrationData("confirmPassword", value);
   };
 
   return (
@@ -57,15 +78,17 @@ export function Form(): ReactElement {
       <Input
         id="password"
         label="Password"
+        error={passwordError}
         type="password"
-        updateValue={updateRegistrationData}
+        updateValue={validatePasswordAndUpdate}
         value={registrationData.password}
       />
       <Input
         id="confirmPassword"
         label="Confirm Password"
+        error={confirmPasswordError}
         type="password"
-        updateValue={updateRegistrationData}
+        updateValue={validateConfirmPasswordAndUpdate}
         value={registrationData.confirmPassword}
       />
       <Button type="submit">Sign Up</Button>
