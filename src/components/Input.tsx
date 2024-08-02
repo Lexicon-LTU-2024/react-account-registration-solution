@@ -31,6 +31,12 @@ export function Input(): ReactElement {
     setLabelClasses(updatedClasses);
   };
 
+  const handleOnFocus: FocusEventHandler<HTMLInputElement> = () => {
+    labelClasses.includes("minimize")
+      ? setLabelClasses([...labelClasses, "blue"])
+      : setLabelClasses([...labelClasses, "minimize", "blue"]);
+  };
+
   // ############### Derived variables / Regular JS ###############
 
   const derivedLabelClasses = labelClasses.join(" ");
@@ -45,6 +51,7 @@ export function Input(): ReactElement {
         className={derivedInputClasses}
         onBlur={handleOnBlur}
         onChange={(e) => setValue(e.target.value)}
+        onFocus={handleOnFocus}
         ref={inputRef}
         type="text"
         value={value}
