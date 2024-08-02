@@ -1,3 +1,9 @@
+import { Form } from ".";
+
 export function App() {
-  return <>App</>;
+  return (
+    <>
+      <Form />
+    </>
+  );
 }
