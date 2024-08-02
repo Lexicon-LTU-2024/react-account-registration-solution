@@ -12,11 +12,15 @@ export function Input(): ReactElement {
   // ############### Event Handlers ###############
 
   const handleOnBlur: FocusEventHandler<HTMLInputElement> = () => {
-    const updatedClasses = labelClasses.filter(
-      (labelClass) => labelClass !== "minimize" && labelClass !== "blue"
-    );
-
-    setLabelClasses(updatedClasses);
+    if (value === "") {
+      const updatedClasses = labelClasses.filter(
+        (labelClass) => labelClass !== "minimize" && labelClass !== "blue"
+      );
+      setLabelClasses(updatedClasses);
+    } else {
+      const updatedClasses = labelClasses.filter((labelClass) => labelClass !== "blue");
+      setLabelClasses(updatedClasses);
+    }
   };
 
   const handleOnClick: MouseEventHandler<HTMLLabelElement> = () => {
