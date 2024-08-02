@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { Input } from ".";
+import { Button, Input } from ".";
 
 export function Form(): ReactElement {
   return (
@@ -9,7 +9,7 @@ export function Form(): ReactElement {
       <Input id="email" label="Email" type="email" />
       <Input id="password" label="Password" type="password" />
       <Input id="confirm-password" label="Confirm Password" type="password" />
-      {/* <Button /> */}
+      <Button disabled type="submit">Sign Up</Button>
     </form>
   );
 }
